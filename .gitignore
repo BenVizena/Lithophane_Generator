@@ -1,0 +1,7 @@
+##### Files that aren't my code #####
+*.stl
+*.png
+*.jpg
+*.pyc
+*~
+work_log.txt
