@@ -1,6 +1,7 @@
 ######################
 #
-# TODO: Unit testing
+# TODO: Add checking functionality to Solid to make sure that the solid is closed
+# TODO: Add checking functionality to Solid to make sure that all normals are pointing outwards.
 #
 ######################
 
@@ -17,8 +18,10 @@ class Vertex:
         return [self.x, self.y, self.z]
 
     def get_vertex_string(self):
-        return "vertex   " + float(self.x) + " " + float(self.y) + " " + float(self.z) + "\n
+        return "      vertex   " + str(self.x) + " " + str(self.y) + " " + str(self.z) + "\n"
 
+    def __sub__(vertex1, vertex2):
+        return [vertex1.x - vertex2.x, vertex1.y - vertex2.y, vertex1.z - vertex2.z]
 
 class Facet:
 
@@ -28,19 +31,22 @@ class Facet:
         self.vertex3 = vertex3
         self.normal = self.get_normal()
 
+    
+
     def get_normal(self):
-        return np.cross(np.cross(self.vertex1, self.vertex2), self.vertex3)
+        non_normalized_normal = np.cross((self.vertex2 - self.vertex1), (self.vertex3 - self.vertex1))
+        return non_normalized_normal / np.max(abs(non_normalized_normal))
 
     def get_normal_string(self):
-        return "      " + str(self.normal[0]) + " " + str(self.normal[1]) + " " + str(self.normal[2] + "\n")
+        return str(self.normal[0]) + " " + str(self.normal[1]) + " " + str(self.normal[2]) + "\n"
 
     def get_facet_string(self):
-        return "  facet normal " + self.get_normal_string() +
-            "    outer loop\n" +
-            self.vertex1.get_vertex_string() +
-            self.vertex2.get_vertex_string() +
-            self.vertex3.get_vertex_string() +
-            "    endloop\n" +
+        return "  facet normal " + self.get_normal_string() + \
+            "    outer loop\n" + \
+            self.vertex1.get_vertex_string() + \
+            self.vertex2.get_vertex_string() + \
+            self.vertex3.get_vertex_string() + \
+            "    endloop\n" + \
             "  endfacet\n"
 
 class Solid:
@@ -57,5 +63,24 @@ class Solid:
         solid_string = solid_string + "endsolid"
 
         return solid_string
+
+def test():
+    v1 = Vertex(-25,5,30)
+    v2 = Vertex(-25,5,0)
+    v3 = Vertex(-25,15,30)
+    v4 = Vertex(-25,15,0)
+
+    v5 = Vertex(-50, 0, 0)
+    v6 = Vertex(-50, 0, 30)
+    v7 = Vertex(-50, 15, 0)
+
+    f1 = Facet(v1, v2, v3)
+    f2 = Facet(v3, v2, v4)
+    f3 = Facet(v5, v6, v7)
+
+    s1 = Solid((f1, f2, f3))
+    print(s1.get_solid_string())
+
+
 
         
