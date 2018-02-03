@@ -1,7 +1,7 @@
 ######################
 #
-# TODO: Add checking functionality to Solid to make sure that the solid is closed
-# TODO: Add checking functionality to Solid to make sure that all normals are pointing outwards.
+# TODO:10 Add checking functionality to Solid to make sure that the solid is closed
+# TODO:0 Add checking functionality to Solid to make sure that all normals are pointing outwards.
 #
 ######################
 
@@ -31,7 +31,7 @@ class Facet:
         self.vertex3 = vertex3
         self.normal = self.get_normal()
 
-    
+
 
     def get_normal(self):
         non_normalized_normal = np.cross((self.vertex2 - self.vertex1), (self.vertex3 - self.vertex1))
@@ -80,7 +80,3 @@ def test():
 
     s1 = Solid((f1, f2, f3))
     print(s1.get_solid_string())
-
-
-
-        
