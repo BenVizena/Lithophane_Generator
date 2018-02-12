@@ -7,6 +7,33 @@
 
 import numpy as np
 
+
+def get_normal(v1, v2, v3):
+    non_normalized_normal = np.cross((v2 - v1), (v3 - v1))
+    return non_normalized_normal / np.max(abs(non_normalized_normal))
+
+def get_normal_string(v1, v2, v3):
+    normal = get_normal(v1, v2, v3)
+    return str(normal[0]) + " " + str(normal[1]) + " " + str(normal[2]) + "\n"
+
+def get_vertex_string(x, y, z):
+    return "      vertex   " + str(x) + " " + str(y) + " " + str(z) + "\n"
+
+def get_facet_string(v1, v2, v3):
+    return "  facet normal " + get_normal_string(v1, v2, v3) + \
+        "    outer loop\n" + \
+        get_vertex_string(v1[0], v1[1], v1[2]) + \
+        get_vertex_string(v2[0], v2[1], v2[2]) + \
+        get_vertex_string(v3[0], v3[1], v3[2]) + \
+        "    endloop\n" + \
+        "  endfacet\n"
+
+def get_solid_header():
+    return 'solid ASCII\n'
+
+def get_solid_footer():
+    return 'endsolid'
+
 class Vertex:
 
     def __init__(self, x, y, z):
